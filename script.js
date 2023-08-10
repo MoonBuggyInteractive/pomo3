@@ -1,22 +1,45 @@
-let duration = 1500;
+let duration = 1500; // 25 minutes in seconds
 let elapsed = 1500;
 let interval;
 let score = 0;
 let potentialScore = 0;
+let currentUser = null;
 
 const playBtn = document.querySelector('.play-btn');
 const resetBtn = document.querySelector('.reset-btn');
 const timeEl = document.querySelector('.time');
 const progressValue = document.querySelector('.progress-ring__value');
 const scoreEl = document.querySelector('.score-value');
+const loginEmail = document.getElementById('loginEmail');
+const loginPassword = document.getElementById('loginPassword');
+const registerEmail = document.getElementById('registerEmail');
+const registerPassword = document.getElementById('registerPassword');
 
-window.onload = function() {
-    let savedScore = localStorage.getItem('score');
-    if (savedScore) {
-        score = parseInt(savedScore);
-        scoreEl.innerText = score;
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        // User is signed in.
+        currentUser = user;
+        fetchScoreFromDatabase();
+    } else {
+        // No user is signed in.
+        currentUser = null;
     }
-};
+});
+
+function fetchScoreFromDatabase() {
+    if (currentUser) {
+        let db = firebase.firestore();
+        let userRef = db.collection('users').doc(currentUser.uid);
+        userRef.get().then((doc) => {
+            if (doc.exists) {
+                score = doc.data().score;
+                scoreEl.innerText = score;
+            }
+        }).catch((error) => {
+            console.error("Error fetching score: ", error);
+        });
+    }
+}
 
 function setProgress(value) {
     const circumference = 2 * Math.PI * 98;
@@ -25,41 +48,37 @@ function setProgress(value) {
     progressValue.style.strokeDashoffset = offset;
 }
 
+function updateTimerAndScore() {
+    elapsed--;
+    potentialScore += 5;
+    scoreEl.innerText = Math.floor(score + potentialScore / 5);
+
+    let min = Math.floor(elapsed / 60);
+    let sec = elapsed % 60;
+    timeEl.innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+
+    let progressPercentage = (elapsed / duration) * 100;
+    setProgress(progressPercentage);
+
+    if (elapsed <= 0) {
+        clearInterval(interval);
+        score += potentialScore;
+        potentialScore = 0;
+        elapsed = 1500;
+        saveScoreToDatabase();
+        timeEl.innerText = "25:00";
+        setProgress(100);
+        playBtn.classList.remove("fa-pause");
+        playBtn.classList.add("fa-play");
+    }
+}
+
 playBtn.addEventListener('click', function() {
     if (playBtn.classList.contains("fa-play")) {
         playBtn.classList.remove("fa-play");
         playBtn.classList.add("fa-pause");
         
-        let msElapsed = 0;
-        interval = setInterval(function() {
-            msElapsed += 200;
-
-            potentialScore += 1;
-            scoreEl.innerText = Math.floor(score + potentialScore);
-
-            if (msElapsed % 1000 === 0) {
-                elapsed--;
-                let min = Math.floor(elapsed / 60);
-                let sec = elapsed % 60;
-                timeEl.innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
-            }
-
-            // Calculate the progress percentage and update every 200ms
-            let progressPercentage = (1 - (msElapsed / (duration * 1000))) * 100;
-            setProgress(progressPercentage);
-
-            if (elapsed <= 0) {
-                clearInterval(interval);
-                score += potentialScore; 
-                potentialScore = 0;
-                localStorage.setItem('score', score);
-                elapsed = 1500;
-                timeEl.innerText = "25:00";
-                setProgress(100);
-                playBtn.classList.remove("fa-pause");
-                playBtn.classList.add("fa-play");
-            }
-        }, 200);
+        interval = setInterval(updateTimerAndScore, 200);
     } else {
         playBtn.classList.remove("fa-pause");
         playBtn.classList.add("fa-play");
@@ -78,8 +97,47 @@ resetBtn.addEventListener('click', function() {
     playBtn.classList.add("fa-play");
 });
 
-document.querySelector('.reset-score-text').addEventListener('click', function() {
+document.querySelector('.reset-score-btn').addEventListener('click', function() {
     score = 0;
     scoreEl.innerText = score;
-    localStorage.setItem('score', score);
+    saveScoreToDatabase();
 });
+
+function saveScoreToDatabase() {
+    if (currentUser) {
+        let db = firebase.firestore();
+        db.collection('users').doc(currentUser.uid).set({
+            score: score
+        });
+    }
+}
+
+function registerUser() {
+    let email = registerEmail.value;
+    let password = registerPassword.value;
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        // Registration successful
+        currentUser = userCredential.user;
+        saveScoreToDatabase();
+    })
+    .catch((error) => {
+        console.error("Error during registration: ", error);
+    });
+}
+
+function loginUser() {
+    let email = loginEmail.value;
+    let password = loginPassword.value;
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        // Login successful
+        currentUser = userCredential.user;
+        fetchScoreFromDatabase();
+    })
+    .catch((error) => {
+        console.error("Error during login: ", error);
+    });
+}
