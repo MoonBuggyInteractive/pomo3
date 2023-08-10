@@ -1,30 +1,20 @@
 body {
-    font-family: 'Bungee', sans-serif;
-    background-color: transparent;
-    text-transform: uppercase;
-    overflow: hidden;
-}
-
-.main-container {
+    font-family: 'Nasalization', sans-serif;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #C0C0C0;  /* Setting the color here for all child elements */
+    color: #C0C0C0;  /* Silver-like color for a moonbase feel */
+    background-color: transparent;
+    text-transform: uppercase;  /* All text in uppercase */
 }
 
 .progress-container {
     position: relative;
-    width: 210px;
-    height: 210px;
-    background-color: #333333;
-    border: 5px solid #555555;
+    width: 200px;
+    height: 200px;
+    background-color: transparent;
     border-radius: 50%;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .progress-ring {
@@ -32,8 +22,6 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
 }
 
 .progress-ring__circle, .progress-ring__value {
@@ -55,19 +43,9 @@ body {
     align-items: center;
 }
 
-.time {
+.time, .score {
     font-size: 1.5em;
     margin-bottom: 10px;
-}
-
-.score {
-    font-family: 'Nasalization', sans-serif;
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.score .score-value {
-    font-family: 'Nasalization', sans-serif;
 }
 
 .play-btn, .reset-btn {
@@ -78,7 +56,7 @@ body {
 }
 
 .play-btn:hover, .reset-btn:hover {
-    color: #808080;
+    color: #808080;  /* Gray for hover effect */
 }
 
 .icons-row {
@@ -87,19 +65,35 @@ body {
     width: 100%;
 }
 
-.reset-score-container {
+.reset-score {
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
+    text-align: center;
 }
 
 .reset-score-text {
-    font-size: 1em;
-    color: #C0C0C0;
+    font-size: 1.2em;
+    color: #C0C0C0;  /* Silver-like color */
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .reset-score-text:hover {
-    color: #808080;
+    color: #808080;  /* Gray for hover effect */
+}
+
+.auth-container {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.register, .login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"], input[type="password"] {
+    margin-bottom: 10px;
 }
