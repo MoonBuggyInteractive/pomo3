@@ -115,6 +115,13 @@ document.querySelector('.reset-score-btn').addEventListener('click', function() 
     saveScoreToDatabase();
 });
 
+document.querySelector('.add-score-btn').addEventListener('click', function() {
+    score += 500;
+    scoreEl.innerText = score + " PTS";
+    saveScoreToDatabase();
+});
+
+
 function saveScoreToDatabase() {
     if (currentUser) {
         let db = firebase.firestore();
