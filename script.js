@@ -1,3 +1,14 @@
+const firebaseConfig = {
+    apiKey: "AIzaSyAkr8WxRaZpbXMCCNx9PcNOrCxhI3l2Dy0",
+    authDomain: "habitatmodule-23fff.firebaseapp.com",
+    projectId: "habitatmodule-23fff",
+    storageBucket: "habitatmodule-23fff.appspot.com",
+    messagingSenderId: "1018682199626",
+    appId: "1:1018682199626:web:14546286b0f4dd96f360b3",
+    measurementId: "G-MXDQL7NSCQ"
+};
+firebase.initializeApp(firebaseConfig);
+
 let duration = 1500; // 25 minutes in seconds
 let elapsed = 1500;
 let interval;
@@ -17,11 +28,9 @@ const registerPassword = document.getElementById('registerPassword');
 
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-        // User is signed in.
         currentUser = user;
         fetchScoreFromDatabase();
     } else {
-        // No user is signed in.
         currentUser = null;
     }
 });
@@ -33,7 +42,7 @@ function fetchScoreFromDatabase() {
         userRef.get().then((doc) => {
             if (doc.exists) {
                 score = doc.data().score;
-                scoreEl.innerText = score;
+                scoreEl.innerText = score + " PTS";
             }
         }).catch((error) => {
             console.error("Error fetching score: ", error);
@@ -51,7 +60,7 @@ function setProgress(value) {
 function updateTimerAndScore() {
     elapsed--;
     potentialScore += 5;
-    scoreEl.innerText = Math.floor(score + potentialScore / 5);
+    scoreEl.innerText = Math.floor(score + potentialScore / 5) + " PTS";
 
     let min = Math.floor(elapsed / 60);
     let sec = elapsed % 60;
@@ -77,7 +86,6 @@ playBtn.addEventListener('click', function() {
     if (playBtn.classList.contains("fa-play")) {
         playBtn.classList.remove("fa-play");
         playBtn.classList.add("fa-pause");
-        
         interval = setInterval(updateTimerAndScore, 200);
     } else {
         playBtn.classList.remove("fa-pause");
@@ -92,14 +100,14 @@ resetBtn.addEventListener('click', function() {
     timeEl.innerText = "25:00";
     setProgress(100);
     potentialScore = 0;
-    scoreEl.innerText = score;
+    scoreEl.innerText = score + " PTS";
     playBtn.classList.remove("fa-pause");
     playBtn.classList.add("fa-play");
 });
 
 document.querySelector('.reset-score-btn').addEventListener('click', function() {
     score = 0;
-    scoreEl.innerText = score;
+    scoreEl.innerText = score + " PTS";
     saveScoreToDatabase();
 });
 
@@ -118,7 +126,6 @@ function registerUser() {
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-        // Registration successful
         currentUser = userCredential.user;
         saveScoreToDatabase();
     })
@@ -133,7 +140,6 @@ function loginUser() {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
-        // Login successful
         currentUser = userCredential.user;
         fetchScoreFromDatabase();
     })
