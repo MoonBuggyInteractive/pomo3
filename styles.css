@@ -94,6 +94,23 @@ body {
     align-items: center;
 }
 
+.add-score-btn {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #C0C0C0;  /* Silver-like color */
+    background-color: #333333;  /* Dark gray */
+    border: 2px solid #555555;  /* Lighter gray */
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-score-btn:hover {
+    background-color: #222222;  /* Even darker gray for hover effect */
+}
+
+
+
 input[type="text"], input[type="password"] {
     margin-bottom: 10px;
 }
