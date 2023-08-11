@@ -123,6 +123,13 @@ document.querySelector('.add-score-btn').addEventListener('click', function() {
     saveScoreToDatabase();
 });
 
+function addPoints() {
+    console.log("Inline event triggered");
+    score += 500;
+    scoreEl.innerText = score + " PTS";
+    saveScoreToDatabase();
+}
+
 
 
 function saveScoreToDatabase() {
