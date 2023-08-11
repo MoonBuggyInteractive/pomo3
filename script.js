@@ -7,7 +7,11 @@ const firebaseConfig = {
     appId: "1:1018682199626:web:14546286b0f4dd96f360b3",
     measurementId: "G-MXDQL7NSCQ"
 };
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+} else {
+    firebase.app();
+}
 
 let duration = 1500; // 25 minutes in seconds
 let elapsed = 1500;
