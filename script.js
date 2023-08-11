@@ -116,10 +116,13 @@ document.querySelector('.reset-score-btn').addEventListener('click', function() 
 });
 
 document.querySelector('.add-score-btn').addEventListener('click', function() {
+    console.log("Add Score button clicked");
     score += 500;
+    console.log("New score:", score);
     scoreEl.innerText = score + " PTS";
     saveScoreToDatabase();
 });
+
 
 
 function saveScoreToDatabase() {
