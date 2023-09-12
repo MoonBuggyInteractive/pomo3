@@ -4,57 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retro Game Timer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nasalization&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-
-    <!-- Firebase SDKs -->
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
-<!-- Add Firebase products that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
 </head>
 <body>
-    <div class="auth-container">
-        <div class="register">
-            <input type="text" id="registerEmail" placeholder="Register Email">
-            <input type="password" id="registerPassword" placeholder="Password">
-            <button onclick="registerUser()">Register</button>
+    <div class="main-container">
+        <div class="mission-container">
+            <div class="mission-title">Mission: <span class="mission-name"></span></div>
+            <div class="mission-progress-container">
+                <div class="mission-icon-left"></div>
+                <div class="mission-progress-bar">
+                    <div class="mission-progress-filled"></div>
+                </div>
+                <div class="mission-icon-move">
+                    <img id="dynamic-icon" alt="">
+                </div>
+                <div class="mission-icon-right"></div>
+            </div>
+            <div class="mission-dialogue"></div>
+            <!-- Removed the mission-navigation div and its buttons -->
         </div>
-
-        <div class="login">
-            <input type="text" id="loginEmail" placeholder="Login Email">
-            <input type="password" id="loginPassword" placeholder="Password">
-            <button onclick="loginUser()">Login</button>
-        </div>
-    </div>
-
-    <div class="progress-container">
-        <svg class="progress-ring" width="200" height="200">
-            <circle class="progress-ring__circle" stroke="grey" stroke-width="4" fill="transparent" r="98" cx="100" cy="100"></circle>
-            <circle class="progress-ring__value" stroke="#C0C0C0" stroke-width="4" fill="transparent" r="98" cx="100" cy="100"></circle>
-        </svg>
-        <div class="controls">
-            <div class="time">25:00</div>
-            <div class="score"><span class="score-value">0</span> PTS</div>
-            <div class="icons-row">
-                <i class="fas fa-play play-btn" onclick="toggleTimer()"></i>
-                <i class="fas fa-redo reset-btn" onclick="resetTimer()"></i>
+        <!-- Spacer div -->
+        <div class="spacer"></div>
+        <div class="progress-container">
+            <svg class="progress-ring" width="200" height="200">
+                <circle class="progress-ring__circle" stroke="grey" stroke-width="4" fill="transparent" r="98" cx="100" cy="100"></circle>
+                <circle class="progress-ring__value" stroke="#C0C0C0" stroke-width="4" fill="transparent" r="98" cx="100" cy="100"></circle>
+            </svg>
+            <div class="controls">
+                <div class="time">25:00</div>
+                <div class="icons-row">
+                    <i class="fas fa-play play-btn"></i>
+                    <i class="fas fa-redo reset-btn"></i>
+                </div>
+                <div class="score">
+                    <span class="score-value">0</span>
+                    <div class="score-type"></div>
+                </div>
             </div>
         </div>
+        <div class="tasks-completed-container">
+            <span>Tasks Completed: </span><span class="tasks-completed">0</span>
+        </div>
+        <div class="missions-completed-container">
+            <span>Missions Completed: </span><span class="missions-completed">0</span>
+        </div>
+        <div class="reset-score-container">
+            <span class="reset-score-text">Reset Score</span>
+        </div>
     </div>
-    <div class="reset-score">
-        <span class="reset-score-text" onclick="resetScore()">Reset Score</span>
-    </div>
-    <div class="add-score">
-    <button class="add-score-btn">Add 500 PTS</button>
-    </div>
-
-
-    <script src="script.js"></script>
+    <script type="module" src="missions.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
