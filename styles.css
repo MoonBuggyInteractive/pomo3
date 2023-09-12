@@ -1,20 +1,132 @@
 body {
-    font-family: 'Nasalization', sans-serif;
+    font-family: 'Bungee', sans-serif;
+    background-color: transparent;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+.main-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #C0C0C0;  /* Silver-like color for a moonbase feel */
-    background-color: transparent;
-    text-transform: uppercase;  /* All text in uppercase */
+    color: #C0C0C0;  
 }
 
+/* Mission styles */
+.mission-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    color: #C0C0C0;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.mission-dialogue {
+    font-size: 1em;
+    text-align: center;
+    color: #C0C0C0;
+    width: 375px;
+    height: 35px;
+    white-space: normal;
+    overflow: hidden;
+    margin: 0;
+}
+
+
+.mission-title {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.mission-progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+.mission-icon-left, .mission-icon-right {
+    width: 30px; 
+    height: 30px; 
+    fill: #C0C0C0; 
+}
+
+.mission-icon-move {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    left: 50%; /* Set the default position to 50% */
+    transform: translateX(calc(-50% + 50px)); /* Adjust the "5px" value as needed */
+    z-index: 2;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+
+.mission-progress-bar {
+    flex-grow: 1;
+    height: 10px;
+    background-color: grey;
+    border-radius: 5px;
+    z-index: 1;
+    margin: 0 20px;  /* Add a margin to ensure the icons don't overlap */
+}
+
+
+.mission-progress-filled {
+    height: 100%;
+    width: 0%;  /* Initial width */
+    background-color: #C0C0C0;  /* Color for the filled portion */
+    border-radius: 5px;  /* Keep the corners rounded */
+    transition: width 0.5s;  /* Smooth transition */
+}
+
+.mission-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#previous-dialogue, #next-dialogue {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: #C0C0C0;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+#previous-dialogue:hover, #next-dialogue:hover {
+    color: #808080;
+}
+
+
+
+/* Progress ring styles */
 .progress-container {
     position: relative;
-    width: 200px;
-    height: 200px;
-    background-color: transparent;
+    width: 210px;
+    height: 210px;
+    background-color: #333333;
+    border: 5px solid #555555;
     border-radius: 50%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .progress-ring {
@@ -22,6 +134,8 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
 }
 
 .progress-ring__circle, .progress-ring__value {
@@ -33,6 +147,7 @@ body {
     transform-origin: 50% 50%;
 }
 
+/* Control styles */
 .controls {
     position: absolute;
     top: 50%;
@@ -43,9 +158,40 @@ body {
     align-items: center;
 }
 
-.time, .score {
-    font-size: 1.5em;
+.time {
+    font-size: 2em;
     margin-bottom: 10px;
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Center children horizontally */
+    justify-content: center;  /* Center children vertically */
+}
+
+
+
+.score-value {
+    font-family: 'Bungee', sans-serif;
+    font-size: 1.5em;  /* Decreased font size */
+    width: 80px;  /* Fixed width to prevent jiggling */
+    text-align: center;
+}
+
+
+.score-type {
+    font-size: 0.6em;
+    color: #C0C0C0;
+    text-align: center;  /* Center the text within the element */
+}
+
+
+.icons-row {
+    display: flex;
+    justify-content: space-between;  /* This ensures that the icons are spaced out */
+    width: 100%;
+    padding: 0 20px;  /* Padding to prevent the icons from touching the edges */
 }
 
 .play-btn, .reset-btn {
@@ -56,61 +202,34 @@ body {
 }
 
 .play-btn:hover, .reset-btn:hover {
-    color: #808080;  /* Gray for hover effect */
+    color: #808080;
 }
 
-.icons-row {
+/* Other UI styles */
+.tasks-completed-container, .missions-completed-container {
+    margin-top: 10px;
     display: flex;
-    justify-content: space-around;
-    width: 100%;
+    justify-content: center;
+    color: #C0C0C0;
 }
 
-.reset-score {
+.tasks-completed-container span, .missions-completed-container span {
+    margin-right: 5px;
+}
+
+.reset-score-container {
     margin-top: 20px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .reset-score-text {
-    font-size: 1.2em;
-    color: #C0C0C0;  /* Silver-like color */
+    font-size: 1em;
+    color: #C0C0C0;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .reset-score-text:hover {
-    color: #808080;  /* Gray for hover effect */
-}
-
-.auth-container {
-    display: flex;
-    justify-content: space-between;
-    width: 50%;
-    margin-bottom: 20px;
-}
-
-.register, .login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.add-score-btn {
-    margin-top: 20px;
-    font-size: 1.2em;
-    color: #C0C0C0;  /* Silver-like color */
-    background-color: #333333;  /* Dark gray */
-    border: 2px solid #555555;  /* Lighter gray */
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.add-score-btn:hover {
-    background-color: #222222;  /* Even darker gray for hover effect */
-}
-
-
-
-input[type="text"], input[type="password"] {
-    margin-bottom: 10px;
+    color: #808080;
 }
